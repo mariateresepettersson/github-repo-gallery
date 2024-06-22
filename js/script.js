@@ -3,6 +3,8 @@ const username = "mariateresepettersson";
 const repoList = document.querySelector(".repo-list");
 const repoSection = document.querySelector(".repos");
 const repoDataSection = document.querySelector(".repo-data");
+const backButton = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 //Declare a function to fetch user data from git
 const getUserData = async function () {
@@ -44,6 +46,7 @@ const getRepos = async function () {
 
 //Declare a function to display repos
 const displayRepos = function (repos) {
+  filterInput.classList.remove("hide");
   for (const repo of repos) {
     const repoItem = document.createElement("li");
     repoItem.classList.add("repo");
@@ -77,4 +80,30 @@ const getRepoInfo = async function (repoName) {
     languages.push(language);
   }
   console.log(languages);
+  displayRepoInfo(repoInfo, languages);
 };
+
+//Function to display repo info
+const displayRepoInfo = function (repoInfo, languages) {
+  repoDataSection.innerHTML = "";
+  repoDataSection.classList.remove("hide");
+  repoSection.classList.add("hide");
+  const div = document.createElement("div");
+  div.innerHTML = `
+  <h3>Name: ${repoInfo.name}</h3>
+    <p>Description: ${repoInfo.description}</p>
+    <p>Default Branch: ${repoInfo.default_branch}</p>
+    <p>Languages: ${languages.join(", ")}</p>
+    <a class="visit" href="${
+      repoInfo.html_url
+    }" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>
+    `;
+  repoDataSection.append(div);
+};
+
+//Event listener for back button
+backButton.addEventListener("click", function (e) {
+  repoSection.classList.remove("hide");
+  repoDataSection.classList.add("hide");
+  backButton.classList.add("hide");
+});
