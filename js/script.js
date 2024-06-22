@@ -85,6 +85,7 @@ const getRepoInfo = async function (repoName) {
 
 //Function to display repo info
 const displayRepoInfo = function (repoInfo, languages) {
+  backButton.classList.remove("hide");
   repoDataSection.innerHTML = "";
   repoDataSection.classList.remove("hide");
   repoSection.classList.add("hide");
@@ -106,4 +107,20 @@ backButton.addEventListener("click", function (e) {
   repoSection.classList.remove("hide");
   repoDataSection.classList.add("hide");
   backButton.classList.add("hide");
+});
+
+filterInput.addEventListener("input", function (e) {
+  const inputValue = e.target.value;
+  //console.log(inputValue);
+  const repos = document.querySelectorAll(".repo");
+  const lowerInputValue = inputValue.toLowerCase();
+
+  for (const repo of repos) {
+    const repoLowerInputValue = repo.innerText.toLowerCase();
+    if (repoLowerInputValue.includes(lowerInputValue)) {
+      repo.classList.remove("hide");
+    } else {
+      repo.classList.add("hide");
+    }
+  }
 });
